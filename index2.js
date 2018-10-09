@@ -1,86 +1,35 @@
 const { GraphQLServer } = require('graphql-yoga');
 
-let count = 2;
-let todos = [
-  {
-    id: '0',
-    content: 'Buy Milk',
-    isCompleted: true,
-  },
-  {
-    id: '1',
-    content: 'cook some lobster',
-    isCompleted: false,
-  },
-];
 const typeDefs = `
-type Todo {
-  id: ID!
-  content: String!
-  isCompleted: Boolean!
-}
 type Query {
-  allTodos: [Todo!]!
-  Todo(id: ID!): Todo!
+  book(id: ID!): Book
 }
-type Mutation {
-  createTodo(content: String!, isCompleted: Boolean!): Todo!
-  updateTodo(id: ID!, content: String, isCompleted: Boolean): Todo!
-  deleteTodo(id: ID!): Todo!
+
+type Book {
+  id: ID
+  title: String
+  author: String
+  publishYear: Int
 }
 `;
 
 const resolvers = {
   Query: {
-    allTodos: () => {
-      return todos;
-    },
-    Todo: (_, { id }) => {
-      const todo = todos.find(x => x.id === id);
-      if (!todo) {
-        throw new Error('Cannot find your todo!');
-      }
-      return todo;
-    },
-  },
-  Mutation: {
-    createTodo: (_, { content, isCompleted }) => {
-      const newTodo = {
-        id: count++,
-        content,
-        isCompleted,
-      };
-      todos = [...todos, newTodo];
-      return newTodo;
-    },
-    updateTodo: (_, { id, content, isCompleted }) => {
-      let updatedTodo;
-
-      todos = todos.map(todo => {
-        if (todo.id === id) {
-          updatedTodo = {
-            id: todo.id,
-            // for content and isCompleted, we first check if values are provided
-            content: content !== undefined ? content : todo.content,
-            isCompleted:
-              isCompleted !== undefined ? isCompleted : todo.isCompleted,
-          };
-          return updatedTodo;
-        } else {
-          return todo;
-        }
-      });
-
-      return updatedTodo;
-    },
-    deleteTodo: (_, { id }) => {
-      const todoToDelete = todos.find(x => x.id === id);
-
-      todos = todos.filter(todo => {
-        return todo.id !== todoToDelete.id;
-      });
-
-      return todoToDelete;
+    book(parent, args) {
+      return [
+        {
+          id: '1234',
+          author: 'George Orwell',
+          title: '1984',
+          publishYear: 1949,
+        },
+        {
+          id: '5678',
+          author: 'Ray Bradbury',
+          title: 'Fahrenheit 451',
+          publishYear: 1953,
+        },
+      ].find(book => book.id === args.id);
     },
   },
 };

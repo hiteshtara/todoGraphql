@@ -1,18 +1,1 @@
-query {
-whatsForDinner
-}
-
--- run this query
-You can try it our and play around the API using GraphQL playground. For example, to delete the todo with ID 0:
-mutation {
-deleteTodo(id: "0") {
-id
-content
-}
-}
-mutation {
-createTodo(content: "Take a little nap 🛌", isCompleted: false) {
-content
-isCompleted
-}
-}
+GraphQL Yoga is a full-featured, batteries-included GraphQL server built on top of the popular apollo-server library and is the quickest and easiest way to get our server up and running.
