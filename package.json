@@ -2,9 +2,9 @@
   "name": "todo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index2.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index2.js"
   },
   "keywords": [],
   "author": "",
